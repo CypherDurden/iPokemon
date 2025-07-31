@@ -1,0 +1,895 @@
+/*
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Main.java to edit this template
+ */
+package arpejometrov2.pkg0;
+
+import java.io.PrintStream;
+import java.util.ArrayList;
+import java.util.Scanner;
+
+/**
+ *
+ * @author vitor
+ */
+public class ArpejometroV20 {
+
+static Scanner input = new Scanner(System.in);
+static String entradaCliente; 
+      /**
+     * @param args the command line arguments
+     */
+
+
+    public static void limpaTela() {
+        try {
+            if (System.getProperty("os.name").contains("Windows")) {
+                new ProcessBuilder("cmd", "/c", "cls").inheritIO().start().waitFor();
+            } else {
+                System.out.print("\033[H\033[2J");
+                System.out.flush();
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+    
+    public static String recebeTom(){
+            char[] tons = {'C','D','E','F','G','A','B'};
+            char tom1;
+            boolean erroEntrada = true;
+            int contaAcidente=0;
+            
+       
+/* RECEBE Tom  VERIFICANDO SE O DADO É VÁLIDO*/
+            System.out.println("\nOBS1: Tons de Bb devem ter a primeira letra maiuscula. Para os demais tons tanto faz");
+            while (erroEntrada) {
+                contaAcidente=0;
+            System.out.print("\nInforme tom de musica valido: ");                
+            entradaCliente = input.nextLine();
+            for (int i = 0; i < entradaCliente.length(); i++){
+                if(entradaCliente.charAt(i) == 'b' || entradaCliente.charAt(i)=='#'){
+                    contaAcidente++;
+                }
+            }
+            if ((entradaCliente.length() <4) && contaAcidente <2){
+/*Scanner lara absorver o \n que o metodo nextint() (ou qualquer next nao numérico acho)nao absorve*/
+                tom1 = entradaCliente.charAt(0);
+                tom1 = Character.toUpperCase(tom1);
+                for (char c : tons) {
+                   if (c == tom1) {
+                    erroEntrada = false;
+                    break;
+                    }
+                }
+            
+            }
+            }
+            return entradaCliente;
+}
+    
+    public static String formataTom(String tom){
+        return tom.substring(0, 1).toUpperCase() + tom.substring(1);
+    
+    }
+    
+    public static char verificaMenor(String notaFormatada){
+    char temMenor = '\0';
+    if (notaFormatada.contains("m")){
+            if (notaFormatada.contains("b")){
+                temMenor='m';    
+                        }
+                    }
+        else{
+           if (notaFormatada.contains("b") || notaFormatada.contains("F")){
+                temMenor='b';   
+                    }
+                }
+    return temMenor;
+    }    
+    
+    public static RelativoMaior relativoMaior(String notaFormatada){
+        RelativoMaior relativoMaior = new RelativoMaior();
+        ArrayList<RelativoMaior> relativosMaiores = new ArrayList<>();
+
+        relativosMaiores.add(new RelativoMaior("Am","#","C","A",0));
+        relativosMaiores.add(new RelativoMaior("Bbm","b","Db","Bb",5));
+        relativosMaiores.add(new RelativoMaior("Bm","#","D","B",2));
+        relativosMaiores.add(new RelativoMaior("Cm","b","Eb","C",3));
+        relativosMaiores.add(new RelativoMaior("C#m","#","E","C#",4));
+        relativosMaiores.add(new RelativoMaior("Dm","b","F","D",1));
+        relativosMaiores.add(new RelativoMaior("D#m","#","F#","D#",6));
+        relativosMaiores.add(new RelativoMaior("Ebm","b","Gb","G",6));
+        relativosMaiores.add(new RelativoMaior("Em","#","G","E",1));
+        relativosMaiores.add(new RelativoMaior("Fm","b","Ab","A",4));
+        relativosMaiores.add(new RelativoMaior("F#m","#","A","A",3));
+        relativosMaiores.add(new RelativoMaior("Gm","b","Bb","B",2));
+        relativosMaiores.add(new RelativoMaior("G#m","#","B","B",5));
+        relativosMaiores.add(new RelativoMaior("C","#","C","C",0));
+        relativosMaiores.add(new RelativoMaior("Db","b","Db","Db",5));
+        relativosMaiores.add(new RelativoMaior("D","#","D","D",2));
+        relativosMaiores.add(new RelativoMaior("Eb","b","Eb","Eb",3));
+        relativosMaiores.add(new RelativoMaior("E","#","E","E",4));
+        relativosMaiores.add(new RelativoMaior("F","b","F","F",1));
+        relativosMaiores.add(new RelativoMaior("F#","#","F#","F#",6));
+        relativosMaiores.add(new RelativoMaior("Gb","b","Gb","Gb",6));
+        relativosMaiores.add(new RelativoMaior("G","#","G","G",1));
+        relativosMaiores.add(new RelativoMaior("Ab","b","Ab","Ab",4));
+        relativosMaiores.add(new RelativoMaior("A","#","A","A",3));
+        relativosMaiores.add(new RelativoMaior("Bb","b","Bb","Bb",2));
+        relativosMaiores.add(new RelativoMaior("B","#","B","B",5));
+
+
+        
+        
+        for (var rm:relativosMaiores){
+            if (notaFormatada.equals(rm.getNotaMenor())){
+                relativoMaior=rm;
+                break;
+            }
+            else {
+             relativoMaior = null;
+                    }
+            }
+          return relativoMaior;
+        }
+  
+    public static RelativoMaior escolheClave(String notaFormatada,char menor){
+        System.out.println("Tom Formatdo: " + notaFormatada);
+               
+	return relativoMaior(notaFormatada);        
+}
+        
+    public static ArrayList<Nota> geraCromaticaSustenido(String tomFormatado){
+
+        ArrayList<Nota> cromatica = new ArrayList<>();
+            cromatica.add(new Nota("C","C",0,"Am",0));
+            cromatica.add(new Nota("C#","C",1,"A#m",0));
+            cromatica.add(new Nota("D","D",2,"Bm",0));
+            cromatica.add(new Nota("D#","D",3,"Cm",0));
+            cromatica.add(new Nota("E","E",4,"C#m",0));
+            cromatica.add(new Nota("F","F",5,"Dbm",0));
+            cromatica.add(new Nota("F#","F",6,"Dm",0));
+            cromatica.add(new Nota("G","G",7,"Em",0));
+            cromatica.add(new Nota("G#","G",8,"Fm",0));
+            cromatica.add(new Nota("A","A",9,"F#m",0));
+            cromatica.add(new Nota("A#","A",10,"Gm",0));
+            cromatica.add(new Nota("B","B",11,"G#m",0));
+            cromatica.add(new Nota("C","C",12,"Am",0));
+            cromatica.add(new Nota("C#","C",13,"A#m",0));
+            cromatica.add(new Nota("D","D",14,"Bm",0));
+            cromatica.add(new Nota("D#","D",15,"Cm",0));
+            cromatica.add(new Nota("E","E",16,"C#m",0));
+            cromatica.add(new Nota("F","F",17,"Dbm",0));
+            cromatica.add(new Nota("F#","F",18,"Dm",0));
+            cromatica.add(new Nota("G","G",19,"Em",0));
+            cromatica.add(new Nota("G#","G",20,"Fm",0));
+            cromatica.add(new Nota("A","A",21,"F#m",0));
+            cromatica.add(new Nota("A#","A",22,"Gm",0));
+            cromatica.add(new Nota("B","B",23,"G#m",0));
+            cromatica.add(new Nota("C","C",0,"Am",0));
+
+            return cromatica;                                
+                }
+                
+    public static ArrayList<Nota> geraCromaticaBemol(String tomFormatado){
+
+        ArrayList<Nota> cromatica = new ArrayList<>();
+            cromatica.add(new Nota("C","C",0,"Am",0));
+            cromatica.add(new Nota("Db","D",1,"Bbm",0));
+            cromatica.add(new Nota("D","D",2,"Bm",0));
+            cromatica.add(new Nota("Eb","E",3,"Cm",0));
+            cromatica.add(new Nota("E","E",4,"Dbm",0));
+            cromatica.add(new Nota("F","F",5,"Dm",0));
+            cromatica.add(new Nota("Gb","G",6,"Ebm",0));
+            cromatica.add(new Nota("G","G",7,"Em",0));
+            cromatica.add(new Nota("Ab","A",8,"Fm",0));
+            cromatica.add(new Nota("A","A",9,"Gbm",0));
+            cromatica.add(new Nota("Bb","B",10,"Gm",0));
+            cromatica.add(new Nota("B","B",11,"Abm",0));
+            cromatica.add(new Nota("C","C",12,"Am",0));
+            cromatica.add(new Nota("Db","D",13,"Bb",0));
+            cromatica.add(new Nota("D","D",14,"Bm",0));
+            cromatica.add(new Nota("Eb","E",15,"Cm",0));
+            cromatica.add(new Nota("E","E",16,"Dbm",0));
+            cromatica.add(new Nota("F","F",17,"Dm",0));
+            cromatica.add(new Nota("Gb","G",18,"Ebm",0));
+            cromatica.add(new Nota("G","G",19,"Em",0));
+            cromatica.add(new Nota("Ab","A",20,"Fm",0));
+            cromatica.add(new Nota("A","A",21,"Gbm",0));
+            cromatica.add(new Nota("Bb","B",22,"Gm",0));
+            cromatica.add(new Nota("B","B",23,"Abm",0));
+
+
+            return cromatica;
+    }
+    
+    public static ArrayList<Nota>geraCromatica(String tomFormatado,char menor, String bemol){
+        
+        ArrayList<Nota> cromatica = new ArrayList<>();
+        
+        if (menor != 'm') {
+            switch(bemol){
+                case("b"):{
+                    cromatica = geraCromaticaBemol(tomFormatado);
+                    break;
+                        }
+                default: {
+                        cromatica = geraCromaticaSustenido(tomFormatado);
+                       }
+                    }
+                }
+        else {
+            switch(relativoMaior(tomFormatado).getAcidente()){
+                case("b"):{
+                    cromatica = geraCromaticaBemol(tomFormatado);
+                    break;
+                        }
+                default: {
+                    System.out.println(" Menor NÃO Tem Bemol");
+                        cromatica = geraCromaticaSustenido(tomFormatado);
+                       }
+                    }
+                }
+        if (tomFormatado.equals("F"))
+        {
+        System.out.print("Cromatica Gerada: " + cromatica);
+        cromatica = geraCromaticaBemol(tomFormatado);
+        }
+            
+
+        return cromatica;
+    }
+    
+   public static ArrayList<Nota>cromaticaEscalas(String tomFormatado, ArrayList<Nota>cromatica){
+
+       int iCromatica = 0;
+       ArrayList cromaticaTom = new ArrayList<>();
+
+            for (var c:cromatica){
+                if (!c.getNota().equals(tomFormatado)){
+                    iCromatica++;
+                }
+                else{
+                 cromaticaTom.add(c);
+                 iCromatica++;
+                    break;}
+                    } 
+            
+            while (!tomFormatado.equals(cromatica.get(iCromatica).getNota())){
+                cromaticaTom.add(cromatica.get(iCromatica));
+                iCromatica++;
+                    }
+            cromaticaTom.add(cromaticaTom.getFirst());
+       return cromaticaTom;
+   } 
+         	
+    public static boolean verificaDoisAcidentes(ArrayList<Nota> escala){
+            boolean doisAcidentes = true;
+            for (Nota nota : escala){
+            if (nota != null){
+                    doisAcidentes = true;}
+
+             else{
+                    doisAcidentes= false;
+                    break;
+                    }
+                }
+            return doisAcidentes;
+        }
+     
+    public static int referencia(Nota tonica){
+    	return tonica.getEquivalente();
+    }
+    
+    public static ArrayList<Escala> claveBemolouSustenido(String tomFormatado, ArrayList<Nota> cromatica,int referenciaTom,RelativoMaior relativoMaior) {
+         char menor = 'K';
+        ArrayList<Nota> cromaticaTemp = new ArrayList();
+        int iCromatica = 10;
+        String notaMenor = relativoMaior.getNotaMenor();
+        String notaMaior = relativoMaior.getRelativoMaior();
+        
+        if(!notaMenor.equals(notaMaior)){
+
+            menor = 'm';
+            cromaticaTemp.add(cromatica.get(9));
+            while (!cromatica.get(iCromatica).getNota().equals(cromaticaTemp.getFirst().getNota())){
+             cromaticaTemp.add(cromatica.get(iCromatica));
+             if (iCromatica + 2 < cromatica.size()){
+                iCromatica ++;
+             }
+             else{
+             
+             iCromatica=0;
+             
+             }
+
+                }
+            cromatica = cromaticaTemp;
+                
+            } 
+            
+        
+
+        ArrayList<Escala> escalas;
+        String erroDoisAcidentes = "Dois acidentes na clave hipotetica (## ou bb). USE o TOM ENARMONICO";
+        switch (menor) {
+            case 'm' -> {
+                escalas = escalasMenores(cromatica,referenciaTom,erroDoisAcidentes);
+                        }    
+            default -> {
+                escalas = escalasMaiores(cromatica,referenciaTom,erroDoisAcidentes);
+                    }
+                }
+            return escalas;
+            }
+    
+    public static Escala validaEscala(ArrayList<Nota> escala,String nomeEscala,String erroDoisAcidentes){
+    	if (verificaDoisAcidentes(escala)){
+            System.out.println(nomeEscala + escala);
+            Escala escalaNome = new Escala(nomeEscala,escala);
+            return escalaNome;
+                }
+            else {
+		System.out.println(erroDoisAcidentes);
+                return null;
+		}
+    	}
+    
+    public static ArrayList<Escala> escalasMaiores(ArrayList<Nota> escalaTom, int referenciaTom,String erroDoisAcidentes){
+        ArrayList<Escala> escalas = new ArrayList<>();
+    	escalas.add(maiorNatural(escalaTom,referenciaTom,erroDoisAcidentes));
+        escalas.add(maiorHarmonica(escalaTom,referenciaTom,erroDoisAcidentes));
+        escalas.add(maiorPentatonica(escalaTom,referenciaTom, erroDoisAcidentes));
+        escalas.add(maiorBlues(escalaTom,referenciaTom,erroDoisAcidentes));
+        escalas.add(maiorLidia(escalaTom,referenciaTom, erroDoisAcidentes));
+        escalas.add(maiorMixolidia(escalaTom,referenciaTom,erroDoisAcidentes));
+        
+        return escalas;
+
+    	}
+/*Escalas MAIores - Início*/
+    public static Escala maiorNatural(ArrayList<Nota> escalaTom, int referenciaTom, String erroDoisAcidentes){
+	String nomeEscala = "Maior Natural: ";
+    	ArrayList<Nota> escala = new ArrayList<>();
+    	escala.add(tonica(escalaTom));
+    	escala.add(IImaior(escalaTom,referenciaTom,escala.get(escala.size()-1).getLetra()));
+    	escala.add(IIImaior(escalaTom,referenciaTom,escala.get(escala.size()-1).getLetra()));
+    	escala.add(IVjusta(escalaTom,referenciaTom,escala.get(escala.size()-1).getLetra()));
+    	escala.add(Vjusta(escalaTom,referenciaTom,escala.get(escala.size()-1).getLetra()));
+    	escala.add(VImaior(escalaTom,referenciaTom,escala.get(escala.size()-1).getLetra()));
+    	escala.add(VIImaior(escalaTom,referenciaTom,escala.get(escala.size()-1).getLetra()));
+    	return(validaEscala(escala,nomeEscala,erroDoisAcidentes));
+    	}
+		
+    public static Escala maiorHarmonica(ArrayList<Nota> escalaTom, int referenciaTom, String erroDoisAcidentes){
+	String nomeEscala = "Maior Harmonica: ";
+    	ArrayList<Nota> escala = new ArrayList<>();
+    	escala.add(tonica(escalaTom));
+    	escala.add(IImaior(escalaTom,referenciaTom,escala.get(escala.size()-1).getLetra()));
+    	escala.add(IIImaior(escalaTom,referenciaTom,escala.get(escala.size()-1).getLetra()));
+    	escala.add(IVjusta(escalaTom,referenciaTom,escala.get(escala.size()-1).getLetra()));
+    	escala.add(Vjusta(escalaTom,referenciaTom,escala.get(escala.size()-1).getLetra()));
+    	escala.add(VImenor(escalaTom,referenciaTom,escala.get(escala.size()-1).getLetra()));
+    	escala.add(VIImaior(escalaTom,referenciaTom,escala.get(escala.size()-1).getLetra()));
+        return(validaEscala(escala,nomeEscala,erroDoisAcidentes));
+    	}
+    	
+    public static Escala maiorPentatonica(ArrayList<Nota> escalaTom, int referenciaTom, String erroDoisAcidentes){
+	String nomeEscala = "Maior Pentatonica: ";
+    	ArrayList<Nota> escala = new ArrayList<>();
+    	escala.add(tonica(escalaTom));
+    	escala.add(IImaior(escalaTom,referenciaTom,escala.get(escala.size()-1).getLetra()));
+    	escala.add(IIImaior(escalaTom,referenciaTom,escala.get(escala.size()-1).getLetra()));
+    	escala.add(Vjusta(escalaTom,referenciaTom,escala.get(escala.size()-1).getLetra()));
+    	escala.add(VImaior(escalaTom,referenciaTom,escala.get(escala.size()-1).getLetra()));
+    	return(validaEscala(escala,nomeEscala,erroDoisAcidentes));
+    	}
+    	
+    public static Escala maiorBlues(ArrayList<Nota> escalaTom, int referenciaTom, String erroDoisAcidentes){
+	String nomeEscala = "Maior Blues: ";
+    	ArrayList<Nota> escala = new ArrayList<>();
+    	escala.add(tonica(escalaTom));
+    	escala.add(IImaior(escalaTom,referenciaTom,escala.get(escala.size()-1).getLetra()));
+        escala.add(IIImenor(escalaTom,referenciaTom,escala.get(escala.size()-1).getLetra()));
+    	escala.add(IIImaior(escalaTom,referenciaTom,escala.get(escala.size()-1).getLetra()));
+    	escala.add(Vjusta(escalaTom,referenciaTom,escala.get(escala.size()-1).getLetra()));
+    	escala.add(VImaior(escalaTom,referenciaTom,escala.get(escala.size()-1).getLetra()));
+    	return(validaEscala(escala,nomeEscala,erroDoisAcidentes));
+    	}
+    	
+    public static Escala maiorLidia(ArrayList<Nota> escalaTom, int referenciaTom, String erroDoisAcidentes){
+	String nomeEscala = "Grego Lidia: ";
+    	ArrayList<Nota> escala = new ArrayList<>();
+    	escala.add(tonica(escalaTom));
+    	escala.add(IImaior(escalaTom,referenciaTom,escala.get(escala.size()-1).getLetra()));
+    	escala.add(IIImaior(escalaTom,referenciaTom,escala.get(escala.size()-1).getLetra()));
+    	escala.add(IVaumentada(escalaTom,referenciaTom,escala.get(escala.size()-1).getLetra()));
+    	escala.add(Vjusta(escalaTom,referenciaTom,escala.get(escala.size()-1).getLetra()));
+    	escala.add(VImaior(escalaTom,referenciaTom,escala.get(escala.size()-1).getLetra()));
+    	escala.add(VIImaior(escalaTom,referenciaTom,escala.get(escala.size()-1).getLetra()));
+    	return(validaEscala(escala,nomeEscala,erroDoisAcidentes));
+    	}
+    public static Escala maiorMixolidia(ArrayList<Nota> escalaTom, int referenciaTom, String erroDoisAcidentes){
+	String nomeEscala = "Grego Mixolidia: ";
+    	ArrayList<Nota> escala = new ArrayList<>();
+    	escala.add(tonica(escalaTom));
+    	escala.add(IImaior(escalaTom,referenciaTom,escala.get(escala.size()-1).getLetra()));
+    	escala.add(IIImaior(escalaTom,referenciaTom,escala.get(escala.size()-1).getLetra()));
+    	escala.add(IVjusta(escalaTom,referenciaTom,escala.get(escala.size()-1).getLetra()));
+    	escala.add(Vjusta(escalaTom,referenciaTom,escala.get(escala.size()-1).getLetra()));
+    	escala.add(VImaior(escalaTom,referenciaTom,escala.get(escala.size()-1).getLetra()));
+    	escala.add(VIImenor(escalaTom,referenciaTom,escala.get(escala.size()-1).getLetra()));
+    	return(validaEscala(escala,nomeEscala,erroDoisAcidentes));
+    	}
+/*Escalas MAIores - FIM*/  
+    
+/*Escalas MENores - INÍCIO*/  
+
+    public static ArrayList<Escala> escalasMenores(ArrayList<Nota> escalaTom, int referenciaTom,String erroDoisAcidentes){
+        ArrayList<Escala> escalas = new ArrayList<>();
+    	escalas.add(menorNatural(escalaTom,referenciaTom,erroDoisAcidentes));
+        escalas.add(menorHarmonica(escalaTom,referenciaTom,erroDoisAcidentes));
+        escalas.add(menorMelodica(escalaTom,referenciaTom,erroDoisAcidentes));
+        escalas.add(menorPentatonica(escalaTom,referenciaTom,erroDoisAcidentes));
+        escalas.add(menorBlues(escalaTom,referenciaTom,erroDoisAcidentes));
+        return escalas;
+
+    	}
+/*Escalas MENores - Início*/
+    public static Escala menorNatural(ArrayList<Nota> escalaTom, int referenciaTom, String erroDoisAcidentes){
+	String nomeEscala = "Menor Natural: ";
+    	ArrayList<Nota> escala = new ArrayList<>();
+    	escala.add(tonica(escalaTom));
+    	escala.add(IImaior(escalaTom,referenciaTom,escala.get(escala.size()-1).getLetra()));
+    	escala.add(IIImenor(escalaTom,referenciaTom,escala.get(escala.size()-1).getLetra()));
+    	escala.add(IVjusta(escalaTom,referenciaTom,escala.get(escala.size()-1).getLetra()));
+    	escala.add(Vjusta(escalaTom,referenciaTom,escala.get(escala.size()-1).getLetra()));
+    	escala.add(VImenor(escalaTom,referenciaTom,escala.get(escala.size()-1).getLetra()));
+    	escala.add(VIImenor(escalaTom,referenciaTom,escala.get(escala.size()-1).getLetra()));
+    	return(validaEscala(escala,nomeEscala,erroDoisAcidentes));
+    	}
+    public static Escala menorHarmonica(ArrayList<Nota> escalaTom, int referenciaTom, String erroDoisAcidentes){
+	String nomeEscala = "Menor Harmonica: ";
+    	ArrayList<Nota> escala = new ArrayList<>();
+    	escala.add(tonica(escalaTom));
+    	escala.add(IImaior(escalaTom,referenciaTom,escala.get(escala.size()-1).getLetra()));
+    	escala.add(IIImenor(escalaTom,referenciaTom,escala.get(escala.size()-1).getLetra()));
+    	escala.add(IVjusta(escalaTom,referenciaTom,escala.get(escala.size()-1).getLetra()));
+    	escala.add(Vjusta(escalaTom,referenciaTom,escala.get(escala.size()-1).getLetra()));
+    	escala.add(VImenor(escalaTom,referenciaTom,escala.get(escala.size()-1).getLetra()));
+    	escala.add(VIImaior(escalaTom,referenciaTom,escala.get(escala.size()-1).getLetra()));
+    	return(validaEscala(escala,nomeEscala,erroDoisAcidentes));
+    	}
+    public static Escala menorMelodica(ArrayList<Nota> escalaTom, int referenciaTom, String erroDoisAcidentes){
+	String nomeEscala = "Menor Melodica: ";
+        ArrayList<Nota> escala = new ArrayList<>();
+        escala.add(tonica(escalaTom));
+        escala.add(IImenor(escalaTom,referenciaTom,escala.get(escala.size()-1).getLetra()));
+        escala.add(IIImenor(escalaTom,referenciaTom,escala.get(escala.size()-1).getLetra()));
+        escala.add(IVjusta(escalaTom,referenciaTom,escala.get(escala.size()-1).getLetra()));
+        escala.add(Vjusta(escalaTom,referenciaTom,escala.get(escala.size()-1).getLetra()));
+        escala.add(VImaior(escalaTom,referenciaTom,escala.get(escala.size()-1).getLetra()));
+        escala.add(VIImaior(escalaTom,referenciaTom,escala.get(escala.size()-1).getLetra()));
+    	return(validaEscala(escala,nomeEscala,erroDoisAcidentes));
+        }
+    public static Escala menorPentatonica(ArrayList<Nota> escalaTom, int referenciaTom, String erroDoisAcidentes){
+	String nomeEscala = "Menor Pentatonica: ";
+    	ArrayList<Nota> escala = new ArrayList<>();
+    	escala.add(tonica(escalaTom));
+    	escala.add(IImaior(escalaTom,referenciaTom,escala.get(escala.size()-1).getLetra()));
+    	escala.add(IIImaior(escalaTom,referenciaTom,escala.get(escala.size()-1).getLetra()));
+    	escala.add(Vjusta(escalaTom,referenciaTom,escala.get(escala.size()-1).getLetra()));
+    	escala.add(VImaior(escalaTom,referenciaTom,escala.get(escala.size()-1).getLetra()));
+    	return(validaEscala(escala,nomeEscala,erroDoisAcidentes));
+    	}
+    public static Escala menorBlues(ArrayList<Nota> escalaTom, int referenciaTom, String erroDoisAcidentes){
+        String nomeEscala = "Menor Blues: ";
+    	ArrayList<Nota> escala = new ArrayList<>();
+    	escala.add(tonica(escalaTom));
+    	escala.add(IImaior(escalaTom,referenciaTom,escala.get(escala.size()-1).getLetra()));
+        escala.add(IIImenor(escalaTom,referenciaTom,escala.get(escala.size()-1).getLetra()));
+    	escala.add(IIImaior(escalaTom,referenciaTom,escala.get(escala.size()-1).getLetra()));
+    	escala.add(Vjusta(escalaTom,referenciaTom,escala.get(escala.size()-1).getLetra()));
+    	escala.add(VImaior(escalaTom,referenciaTom,escala.get(escala.size()-1).getLetra()));
+    	return(validaEscala(escala,nomeEscala,erroDoisAcidentes));
+    	}
+/*Escalas MENores - FIM*/    
+    
+/*######################### FUNÇÕES QUE ENCONTRAM AS NOTAS PARA AS ESCALAS############################################*/   
+    
+/*Tonica*/
+    public static Nota tonica(ArrayList<Nota> cromatica) {
+    return cromatica.get(0);
+    }
+/*Supertonica*/
+    public static Nota IImenor(ArrayList<Nota> cromatica, int referenciaTom,String letraAnterior) {
+return cromatica.get(1);
+    }
+    
+    
+    public static Nota IImaior(ArrayList<Nota> cromatica, int referenciaTom,String letraAnterior) {
+return cromatica.get(2);
+    }
+/*Mediante Menor*/
+    public static Nota IIImenor(ArrayList<Nota> cromatica, int referenciaTom,String letraAnterior) {
+return cromatica.get(3);
+    }
+    
+/*Mediante Maior*/
+    public static Nota IIImaior(ArrayList<Nota> cromatica, int referenciaTom,String letraAnterior) {
+return cromatica.get(4);
+    }
+    
+/*Subdominante*/
+    public static Nota IVjusta(ArrayList<Nota> cromatica, int referenciaTom,String letraAnterior) {
+return cromatica.get(5);
+    }
+    
+/*Subdominante Maior*/
+    public static Nota IVaumentada(ArrayList<Nota> cromatica, int referenciaTom,String letraAnterior) {
+return cromatica.get(6);
+    }
+    
+/*Dominante Menor*/
+    public static Nota Vdiminuta(ArrayList<Nota> cromatica, int referenciaTom,String letraAnterior) {
+return cromatica.get(6);
+    }
+/*Dominante*/
+    public static Nota Vjusta(ArrayList<Nota> cromatica, int referenciaTom,String letraAnterior) {
+return cromatica.get(7);
+    }
+/*Dominante Aumentada*/
+    public static Nota Vaumentada(ArrayList<Nota> cromatica, int referenciaTom,String letraAnterior) {
+return cromatica.get(8);
+    }
+    
+/*Superdominante Menor*/
+    public static Nota VImenor(ArrayList<Nota> cromatica, int referenciaTom,String letraAnterior) {
+return cromatica.get(8);
+    }
+/*Superdominante Maior*/
+    
+    public static Nota VImaior(ArrayList<Nota> cromatica, int referenciaTom,String letraAnterior) {
+        return cromatica.get(9);
+    }
+    
+/*Sétima Menor*/    
+    public static Nota VIImenor(ArrayList<Nota> cromatica, int referenciaTom,String letraAnterior) {
+        return cromatica.get(10);
+        
+    }
+
+/*Sétima Maior*/
+    public static Nota VIImaior(ArrayList<Nota> cromatica, int referenciaTom,String letraAnterior) {
+  return cromatica.get(11);
+    }
+
+    
+/*################################################## ACORDES ######################*/
+    
+
+    
+    public static ArrayList<String> recebeAcorde(String bemol,ArrayList<Nota> cromatica){
+
+        ArrayList<String> acordes = new ArrayList<>();
+
+        String acorde;
+        String opcao;
+        String acorde1;
+        boolean erroEntrada = true;
+        int contaAcidente;
+        int contaAcordes = 0;
+
+        System.out.println("\nIniciando Modulo Arpejos. Dicas:\n");
+        System.out.println("1- Acordes de Bb devem ter a primeira letra maiuscula. Para os demais acordes tanto faz");
+        System.out.println("2- A repeticao do numero do Acorde indica um dos erros: ");
+        System.out.println("    1.1 Acorde Inesixtente: ");
+        System.out.println("    1.2 Acorde com Nomenclatura nao convencional: ");
+        System.out.println("    1.3 Acorde com Nomenclatura conflitando com do tom previamente inserido.");
+        System.out.println("        Nesse caso use o enarmonico do acorde (ex: se o tom for C insira F# ao inves de Gb)");
+        System.out.println("        Excecao aos acordes de E#,B#,Cb e Fb: nesses casos use sempre seus enarmonicos(F, C, B, E )");
+        System.out.println("3- Para um acorde diminuto escreva 'dim' ou '°'(codigo ASCII 0176)");
+        System.out.println("4- O 2 ou 4 no acorde sao considerados 'add'. Para acorde suspenso escreva 'sus'.\n");
+        System.out.println("Insira os acordes do encadeamento ou Ok para sair.\n");
+        
+            while (erroEntrada) {
+                System.out.print("Acorde " + (contaAcordes + 1) + " : ");
+                acorde = input.nextLine();
+                if (acorde.contains("°") || acorde.contains("dim")){
+                    acorde=acorde.replace("°","m5-");
+                    acorde=acorde.replace("dim","m5-");
+                     }
+                opcao = formataTom(acorde);
+                switch (opcao){
+                    case "Ok":{
+                        erroEntrada = false;
+                    }
+                    default:  {
+                        contaAcidente=0;
+                        for (int i = 0; i < acorde.length(); i++){
+                                if(acorde.charAt(i) == 'b' || acorde.charAt(i)=='#'){
+                                    contaAcidente++;
+                                               }
+                                    }
+                        if (contaAcidente <2){
+                                
+                                acorde1 = formataTom(acorde);
+                                acorde1 = acorde1.replaceAll("[^A-G#b]","");
+                                for (Nota c : cromatica) {
+                                   if (c.getNota().equals(acorde1)) {
+                                 acorde = formataTom(acorde);
+                                 acordes.add(acorde);
+                                 contaAcordes++;
+                                 break;
+                                            }
+                                 }
+                        }
+                    }
+            }
+            
+        }
+    return acordes;
+    }
+    
+     
+   /*###### FUNÇÕES QUE ENCONTRAM AS DOS ACORDES ###################*/     
+    
+    public static String seg9Men(ArrayList<Nota> cromaticaAcorde){
+        return cromaticaAcorde.get(1).getNota();
+    }
+    public static String seg9Mai(ArrayList<Nota> cromaticaAcorde){
+        return cromaticaAcorde.get(2).getNota();
+    }
+    public static String terMen9Aum(ArrayList<Nota> cromaticaAcorde){
+        return cromaticaAcorde.get(3).getNota();
+    }
+    public static String terMai11Men(ArrayList<Nota> cromaticaAcorde){
+        return cromaticaAcorde.get(4).getNota();
+    }
+    public static String quaJus11Mai(ArrayList<Nota> cromaticaAcorde){
+        return cromaticaAcorde.get(5).getNota();
+    }
+    public static String quiDimQua11Aum(ArrayList<Nota> cromaticaAcorde){
+        return cromaticaAcorde.get(6).getNota();
+    }
+    public static String quiJus(ArrayList<Nota> cromaticaAcorde){
+        return cromaticaAcorde.get(7).getNota();
+    }
+    public static String quiAumSex13Men(ArrayList<Nota> cromaticaAcorde){
+        return cromaticaAcorde.get(8).getNota();
+    } 
+    public static String sexMai13Mai(ArrayList<Nota> cromaticaAcorde){
+        return cromaticaAcorde.get(9).getNota();
+    }
+    public static String setMen13Aum(ArrayList<Nota> cromaticaAcorde){
+        return cromaticaAcorde.get(10).getNota();
+    }
+    public static String setMai8Men(ArrayList<Nota> cromaticaAcorde){
+        return cromaticaAcorde.get(11).getNota();
+
+            
+        }
+    
+    
+    public static String ver2(ArrayList<Nota> cromaticaAcorde,String acorde){
+        String notaArpejo= "\0";
+        if(acorde.contains("2-")){
+            notaArpejo = seg9Men(cromaticaAcorde);
+            } else if (acorde.contains("2")) {
+            notaArpejo = seg9Mai(cromaticaAcorde);
+                } 
+         return notaArpejo;   
+            
+        }
+        
+    public static String ver3(ArrayList<Nota> cromaticaAcorde,String acorde){
+        String notaArpejo = terMai11Men(cromaticaAcorde);
+        if(acorde.contains("m")){
+            notaArpejo = terMen9Aum(cromaticaAcorde);
+            } else if (acorde.contains("sus")) {
+            notaArpejo = "\0";
+                } 
+         return notaArpejo;   
+            
+        }
+    public static String ver4(ArrayList<Nota> cromaticaAcorde,String acorde){
+        String notaArpejo = "\0";
+        if(acorde.contains("4+")){
+            notaArpejo = quiDimQua11Aum(cromaticaAcorde);
+            } else if (acorde.contains("4")) {
+            notaArpejo = quaJus11Mai(cromaticaAcorde);
+            } 
+         return notaArpejo;   
+            
+        }
+    public static String ver5(ArrayList<Nota> cromaticaAcorde,String acorde){
+        String notaArpejo = quiJus(cromaticaAcorde);
+        if(acorde.contains("5-")){
+            notaArpejo = quiDimQua11Aum(cromaticaAcorde);
+            } else if (acorde.contains("5+")) {
+                    notaArpejo = quiAumSex13Men(cromaticaAcorde);
+                } 
+         return notaArpejo;   
+            
+        }
+    public static String ver6(ArrayList<Nota> cromaticaAcorde,String acorde){
+        String notaArpejo= "\0";
+        if(acorde.contains("6-")){
+            notaArpejo = quiAumSex13Men(cromaticaAcorde);
+            } else if (acorde.contains("6")) {
+            notaArpejo = sexMai13Mai(cromaticaAcorde);
+                } 
+         return notaArpejo;   
+            
+        }
+    public static String ver7(ArrayList<Nota> cromaticaAcorde,String acorde){
+        String notaArpejo = "\0";
+        if(acorde.contains("7M") || acorde.contains("7+")){
+            notaArpejo = setMai8Men(cromaticaAcorde);
+            } else if (acorde.contains("7")) {
+            notaArpejo = setMen13Aum(cromaticaAcorde);
+            }
+         return notaArpejo;   
+            
+        }
+    
+    public static String ver9(ArrayList<Nota> cromaticaAcorde,String acorde){
+       String notaArpejo = "\0";
+        if(acorde.contains("9-")){
+            notaArpejo = seg9Men(cromaticaAcorde);
+            } else if (acorde.contains("9+")) {
+            notaArpejo = terMen9Aum(cromaticaAcorde);
+                } else if (acorde.contains("9")) {
+            notaArpejo = seg9Mai(cromaticaAcorde);
+                }
+        return notaArpejo;
+            
+        }
+    
+    public static String ver11(ArrayList<Nota> cromaticaAcorde,String acorde){
+      String notaArpejo = "\0";
+        if(acorde.contains("11-")){
+            notaArpejo = terMai11Men(cromaticaAcorde);
+            } else if (acorde.contains("11+")) {
+            notaArpejo = quiDimQua11Aum(cromaticaAcorde);
+                } else if (acorde.contains("11")) {
+            notaArpejo = quaJus11Mai(cromaticaAcorde);
+                }
+        return notaArpejo;
+        }
+    
+    public static String ver13(ArrayList<Nota> cromaticaAcorde,String acorde){
+        String notaArpejo = "\0";
+        if(acorde.contains("13-")){
+            notaArpejo = quiAumSex13Men(cromaticaAcorde);
+            } else if (acorde.contains("13+")) {
+            notaArpejo = setMen13Aum(cromaticaAcorde);
+                } else if (acorde.contains("13")) {
+            notaArpejo = sexMai13Mai(cromaticaAcorde);
+                }
+         return notaArpejo;   
+            
+        }
+    
+    public static ArrayList<Nota> cromaticaAcorde(String acorde,ArrayList<Nota> cromatica){
+        ArrayList<Nota> cromaticaAcorde = new ArrayList<>();
+        int iCromatica = 0;
+        acorde = acorde.replaceAll("[^A-Gb#]","");
+        for (Nota ac: cromatica){
+            if (!acorde.equals(ac.getNota())){
+                    iCromatica++;}
+            else {
+                cromaticaAcorde.add(ac);
+                iCromatica++;
+                 break;
+                    }
+                }
+        
+        while (!acorde.equals((cromatica.get(iCromatica).getNota()))){
+                cromaticaAcorde.add(cromatica.get(iCromatica));
+                 iCromatica++;
+                }
+        return cromaticaAcorde;
+        }        
+    public static void executaArpejos(ArrayList<String> listadeAcordes, ArrayList<Nota> cromatica){
+        for(var acorde: listadeAcordes) {
+            ArrayList<Nota> cromaticaAcorde;
+            ArrayList<String> montaArpejo = new ArrayList<>();
+            ArrayList<String> arpejo = new ArrayList<>();
+            cromaticaAcorde = cromaticaAcorde(acorde, cromatica);
+            int iMontaArpejo = 0;
+            
+            arpejo.add(cromaticaAcorde.getFirst().getNota());
+            montaArpejo.add(ver2(cromaticaAcorde,acorde));	
+            montaArpejo.add(ver3(cromaticaAcorde,acorde));
+            montaArpejo.add(ver4(cromaticaAcorde,acorde));
+            montaArpejo.add(ver5(cromaticaAcorde,acorde));
+            montaArpejo.add(ver6(cromaticaAcorde,acorde));
+            montaArpejo.add(ver7(cromaticaAcorde,acorde));
+            montaArpejo.add(ver9(cromaticaAcorde,acorde));
+            montaArpejo.add(ver11(cromaticaAcorde,acorde));
+            montaArpejo.add(ver13(cromaticaAcorde,acorde));
+            
+            for (var A:montaArpejo){
+                if(!montaArpejo.get(iMontaArpejo).equals("\0")){
+                    arpejo.add(montaArpejo.get(iMontaArpejo));
+                }
+                iMontaArpejo++;
+            }
+	
+
+            System.out.print("\nArpejo de " + acorde + " :" + arpejo);
+            }
+        System.out.println("\n\nOBS: 1 - O arpejo exibira o enarmonico para as notas E#, B#, Cb e Fb ((F, C, B e E )).");
+        System.out.println("OBS: 2 - A inversao de acorde em si eh ignoradas: o que vale sao os graus descritos no acorde.");
+    
+}
+    public static void imprimeEscalas (ArrayList<Escala> escalas,String tomFormatado){
+        System.out.println("\nEscalas do tom " + tomFormatado + ":\n");
+        for(var c :escalas){
+            System.out.println(c.getNome() + ": " + c.getEscala());
+        }
+
+}
+        
+    
+    
+  
+    
+/*##### MAIN */
+    
+    public static void main(String[] args) throws Exception  {
+        System.setOut(new PrintStream(System.out, true, "UTF-8"));
+        
+        boolean encerraApp = false;
+        String tomRecebido;
+        String tomFormatado;
+        char menor = '\0';
+        String bemol ="\0";
+        RelativoMaior relativoMaior;
+        ArrayList<Nota> cromatica = new ArrayList<>();
+        ArrayList<Nota> cromaticaEscalas;
+        ArrayList<String> listaDeAcordes;
+        String[] testeMaior = new String[]{"B#","C","C#","Db","D","D#","Eb","E","E#","Fb","F","F#","Gb","G","G#","Ab","A","A#","Bb","B","Cb"};
+        String[] testeMenor = new String[]{"B#m","Cm","C#m","Dbm","Dm","D#m","Ebm","Em","E#m","Fbm","Fm","F#m","Gbm","Gm","G#m","Abm","Am","A#m","Bbm","Bm","Cbm"};
+        int referenciaTom;
+
+        ArrayList<Escala>escalas;
+        
+        limpaTela();
+        System.out.println("\nBem Vindo ao Arpejometro, programa para analise de escalas e encadeamento de acordes!");  
+        
+       while (!encerraApp){
+
+       tomRecebido = recebeTom();
+       tomFormatado = formataTom(tomRecebido);
+       menor = verificaMenor(tomFormatado);
+       relativoMaior = relativoMaior(tomFormatado);
+         try {
+       cromatica = geraCromatica(tomFormatado,menor,relativoMaior.getAcidente());
+          
+       cromaticaEscalas = cromaticaEscalas(relativoMaior.getRelativoMaior(),cromatica);
+       referenciaTom = referencia(cromatica.get(0));
+       escalas = (claveBemolouSustenido(tomFormatado,cromaticaEscalas,referenciaTom,relativoMaior));
+        listaDeAcordes = recebeAcorde(relativoMaior.getAcidente(),cromatica);
+        limpaTela();
+        imprimeEscalas(escalas,tomFormatado);
+        System.out.println("\nEncadeamento: " + listaDeAcordes);
+        executaArpejos(listaDeAcordes,cromatica);
+         } catch(NullPointerException e){
+        System.out.println("ERRO: Tom inexistente ou fora das melhores praticas. Revise o tom ou use seu o enarmonico");
+    }                
+/*######### PROCESSAMENTO ENCERRRADO. LOOP PARA NOVO PROCESSAMENTO*/
+        System.out.print("\nDigite 1 para nova analise ou qualquer outra coisa pra sair: ");
+            entradaCliente=input.nextLine();
+            switch(entradaCliente){
+            case "1" : encerraApp = false;
+                        break;
+            default: encerraApp = true;
+                        break;
+                    }
+              }   
+        }
+    }
+

@@ -1,0 +1,19 @@
+//
+//  PokemonFull.swift
+//  iPockemon
+//
+//  Created by Vitor Lopes on 30/07/25.
+//
+
+struct PokemonFull : Decodable {
+   // var name: String
+  //  var weight: Int
+    var login: String
+    var avatarUrl: String
+//    var backDefault: String
+
+}
+
+var pokemonsFull: [PokemonFull] = []
+
+

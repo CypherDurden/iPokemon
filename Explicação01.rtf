@@ -1,0 +1,65 @@
+{\rtf1\ansi\ansicpg1252\cocoartf2822
+\cocoatextscaling0\cocoaplatform0{\fonttbl\f0\fswiss\fcharset0 Helvetica;}
+{\colortbl;\red255\green255\blue255;}
+{\*\expandedcolortbl;;}
+\paperw11900\paperh16840\margl1440\margr1440\vieww18780\viewh15760\viewkind0
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural\partightenfactor0
+
+\f0\fs24 \cf0 Apresenta\'e7\'e3o Arquivos\
+\
+\
+ContentView - Concentra as Views, gerado automaticamente pelo Xcode e s\'f3 fiz edi\'e7\'f5es iniciais\
+iPocketApp - Gerado automaticamente pelo Xcode\
+\
+Arquivos de Objetos:\
+\
+Pokemon - Vers\'e3o editada do arquivo fornecido pelo professor.\
+- reorganizada por ordem alfabetica\
+- adicionado atributo booleano \'93hunted\'94 aos Pokemons: inicia como false para todos e muda para true quando o Pokemon \'e9 ca\'e7ado\
+\
+Essa mudan\'e7as s\'e3o importantes para a View \'93Procurados\'94, que explicarei daqui a pouco\
+\
+\
+\
+PokemonFull  - \
+- Representa o objeto com informa\'e7\'f5es mais informa\'e7\'f5es dos Pokemons, o pr\'eamio pra quem consegue ca\'e7ar um.\
+- A ideia \'e9 que, ele represente um Pokemon com mais informa\'e7\'f5es,  consumidas via API\
+- Todos os Objetos v\'e3o para uma lista de PokemonFull na qual podemos fazer pesquisas (feature search que voc\'eas fizeram)\
+\
+\
+Arquivos de Views\
+\
+Procurados -  Representa a lista com procurados. \'c9 baseada no arquivo alterado Pokemon\
+- View tem espa\'e7o para todos os Pokemons da lista Pokemon\
+- quando o atributo hunt de um Pokemon \'e9 true a View exibe o nome daquele Pokemon\
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural\partightenfactor0
+\cf0 - quando o atributo hunt de um Pokemon \'e9 false a View exibe a String \'93??\'94\
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural\partightenfactor0
+\cf0 \
+Demonstrar alterando hunted no arquivo Pokemon\
+\
+\
+\
+Pokebola - \
+ - View onde  \'93ca\'e7amos\'94 os Pokemons\
+- ca\'e7ar no nosso contexto: digitar uma String e apertar um bot\'e3o de a\'e7\'e3oque iniciar\'e1 uma call para a  Pokeapi como nome do Pokemon:\
+\
+- se retornar com informa\'e7\'f5es do um Pokemon E esse Pokemon estiver na lista de Pokemon, a\'ed foi uma ca\'e7ada com sucesso. Um objeto do tipo PokemonFull \'e9 gerado com as informa\'e7\'f5es selecionadas da API, e colocado em uma Lista de PokemonFulls que pode ser pesquisada (importante pra tabView Pokedex)\
+\
+- se retornar com erro significa que a ca\'e7ada falhou\
+\
+- se o Pokemon ca\'e7ado j\'e1 estiver no nosso Pokedex, a\'ed temos uma tela especial pra isso (que pensei na do cachorro caramelo, que \'e9 uma imagem que dificilmente as pessoas n\'e3o empatam)\
+\
+\
+\
+Pokedex - Essa Tab \'e9 pra consulta dos Pokemons j\'e1 ca\'e7ados. Ela tem a searchbar que, faz a busca na lista de PolemonFull.\
+\
+Estat\'edsticas - Tab View mais simples, com as estat\'edsticas do jogo: Por enquanto pensei s\'f3 em Qtde de Pomeons descobertos com porcentagens e porcentagem de acerto (basicamente faz a porcentagem de quantidade de \'93ca\'e7as\'94 em rela\'e7\'e3o ao n\'famero de Pokemons descobertos.\
+\
+\
+\
+\
+\
+\
+\
+ }
